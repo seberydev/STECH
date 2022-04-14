@@ -1,0 +1,20 @@
+{{> insertar}}
+<h1>
+    <div class="container">
+    <div>Nombre</div>
+    <div>Email</div>
+    <div>Edad</div>
+    <div>Contraseña</div>
+    </div>
+    
+    <div class="container-data">
+    {{#each datos}}
+       {{#with this}}
+        <div>{{nombre}}</div>
+        <div>{{email}}</div>
+        <div>{{edad}}</div>
+        <div>{{password}}</div>
+       {{/with}}
+    {{/each}}
+    </div>
+</h1>

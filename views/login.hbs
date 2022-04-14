@@ -1,0 +1,33 @@
+<header> {{>nav2}} </header>
+<body class="">
+  <form action="/login" method="post">
+    <div class="flex justify-center items-center w-screen h-screen bg-gray-200">
+    <div class="m-auto bg-white w-4/12 h-96">
+    <span class="text-2xl m-6 flex font-medium">
+        Inicia Sesión
+    </span>
+    <div class="w-3/4 m-6">
+    <span>
+    <h1 class="text-sm text-gray-400"> Email </h1>
+    <input type="email" name="email" class="border-gray-300 border-b-2 w-full bg-gray-50">
+</span>
+    </div>
+    <div class="w-3/4 m-6">
+    <span>
+    <h1 class="text-sm text-gray-400"> Contraseña </h1>
+    <input type="password" name="contrasena" class="border-gray-300 border-b-2 w-full bg-gray-50">
+</span>
+    </div>
+    <span class="flex justify-start m-6">
+    <input type="submit" class="bg-blue-500 text-white h-10 self-center p-2 hover:bg-blue-600 duration-200" value="Iniciar Sesión"> 
+    </span>
+    <span class="flex justify-center m-5 border-t-2 border-t-gray-200 mt-12">
+    <h3 class="m-4"> 
+        No tienes cuenta?
+    <a href="/login/signup" class="text-blue-500 hover:underline"> Crea una aquí </a>
+</h3>
+</span>
+    </div>
+    </form>
+</body>
+<footer class="bg-gray-600 w-screen h-16 grid grid-cols-8 gap 5  list-none text-white fixed bottom-0"> {{>footer2}} </footer>
