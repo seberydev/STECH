@@ -2,7 +2,7 @@ const { MongoClient } = require("mongodb");
 
 const dbName = "stech";
 const usersCollectionName = "users";
-const url = `mongodb+srv://sebastian:n56CLuhZehkglQI1@cluster0.bvuws.mongodb.net/${dbName}?retryWrites=true&w=majority`;
+const url = process.env.MONGODB_URL || "mongodb://localhost:27017";
 
 const client = new MongoClient(url);
 
