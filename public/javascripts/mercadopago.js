@@ -1,4 +1,5 @@
-const mp = new MercadoPago("TEST-c2a4faea-b211-40af-8144-e472af5be055");
+const MP_PUBLIC_KEY = document.getElementById("MP_PUBLIC_KEY").value;
+const mp = new MercadoPago(MP_PUBLIC_KEY);
 
 const cardForm = mp.cardForm({
   amount: "100.5",
@@ -46,8 +47,6 @@ const cardForm = mp.cardForm({
     onSubmit: (event) => {
       event.preventDefault();
 
-      console.log("Submiting");
-
       const {
         paymentMethodId: payment_method_id,
         issuerId: issuer_id,
@@ -58,8 +57,6 @@ const cardForm = mp.cardForm({
         identificationNumber,
       } = cardForm.getCardFormData();
 
-      // master, oxxo
-
       fetch("/process_payment", {
         method: "POST",
         headers: {
@@ -68,7 +65,7 @@ const cardForm = mp.cardForm({
         body: JSON.stringify({
           token,
           issuer_id,
-          payment_method_id: "oxxo",
+          payment_method_id,
           transaction_amount: Number(amount),
           installments: Number(installments),
           description: "Descripción del producto",
@@ -79,7 +76,10 @@ const cardForm = mp.cardForm({
             },
           },
         }),
-      });
+      })
+        .then((res) => res.json())
+        .then((data) => console.log(data))
+        .catch((err) => console.log(err));
     },
     onFetching: (resource) => {
       console.log("Fetching resource: ", resource);

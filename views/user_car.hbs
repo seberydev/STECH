@@ -1,19 +1,15 @@
 {{>nav}}
 
 <form id="form-checkout">
-  <input class="border-gray-300 border-b-2 bg-gray-50" type="text" name="cardNumber" id="form-checkout__cardNumber" />
-  <input class="border-gray-300 border-b-2 bg-gray-50" type="text" name="cardExpirationDate"
-    id="form-checkout__cardExpirationDate" />
-  <input class="border-gray-300 border-b-2 bg-gray-50" type="text" name="cardholderName"
-    id="form-checkout__cardholderName" />
-  <input class="border-gray-300 border-b-2 bg-gray-50" type="email" name="cardholderEmail"
-    id="form-checkout__cardholderEmail" />
-  <input class="border-gray-300 border-b-2 bg-gray-50" type="text" name="securityCode"
-    id="form-checkout__securityCode" />
-  <select class="border-gray-300 border-b-2 bg-gray-50" name="issuer" id="form-checkout__issuer"></select>
-  <input class="border-gray-300 border-b-2 bg-gray-50" type="text" name="identificationNumber"
-    id="form-checkout__identificationNumber" />
-  <select class="border-gray-300 border-b-2 bg-gray-50" name="installments" id="form-checkout__installments"></select>
+  <input id="MP_PUBLIC_KEY" hidden type="text" value={{MP_PUBLIC_KEY}}>
+  <input type="text" name="cardNumber" id="form-checkout__cardNumber" />
+  <input type="text" name="cardExpirationDate" id="form-checkout__cardExpirationDate" />
+  <input type="text" name="cardholderName" id="form-checkout__cardholderName" />
+  <input type="email" name="cardholderEmail" id="form-checkout__cardholderEmail" />
+  <input type="text" name="securityCode" id="form-checkout__securityCode" />
+  <select name="issuer" id="form-checkout__issuer"></select>
+  <input type="text" name="identificationNumber" id="form-checkout__identificationNumber" />
+  <select name="installments" id="form-checkout__installments"></select>
   <button type="submit" id="form-checkout__submit">Pagar</button>
   <progress value="0" class="progress-bar">Cargando...</progress>
 </form>

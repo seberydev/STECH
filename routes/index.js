@@ -5,7 +5,8 @@ const isAuth = require("../lib/isAuth");
 const deserializeUser = require("../lib/deserializeUser");
 
 mercadopago.configurations.setAccessToken(
-  "TEST-6443081575674090-041513-3beeb8dc5adbdbeb488cb53f7b5fb43e-1107392567"
+  process.env.MP_ACCESS_TOKEN ||
+    "TEST-8962167088219956-041722-a71bb00dff642a17a165c7f3dece5f8b-1107392567"
 );
 
 /* ---------------------
@@ -54,8 +55,14 @@ router.get("/soporte", isAuth, (req, res, next) => {
 });
 
 // SE MUESTRA EL CARRITO DEL USUARIO
-router.get("/carrito", (req, res, next) => {
-  res.render("user_car", { title: "Carrito | STECH" });
+router.get("/carrito", async (req, res, next) => {
+  // const response = await mercadopago.payment_methods.listAll();
+
+  res.render("user_car", {
+    title: "Carrito | STECH",
+    MP_PUBLIC_KEY:
+      process.env.MP_PUBLIC_KEY || "TEST-4f670c16-0042-400d-bc55-785c4ae3a907",
+  });
 });
 
 // SE MUESTRA EL PERFIL DEL USUARIO
@@ -66,56 +73,15 @@ router.get("/perfil", isAuth, (req, res, next) => {
 /****************** */
 
 router.post("/process_payment", (req, res, next) => {
-  const { body } = req;
-  const { payer } = body;
-
-  const paymentData = {
-    transaction_amount: Number(body.transaction_amount),
-    token: body.token,
-    description: body.description,
-    installments: Number(body.installments),
-    payment_method_id: body.paymentMethodId,
-    issuer_id: body.issuerId,
-    payer: {
-      email: payer.email,
-      identification: {
-        type: payer.identification.docType,
-        number: payer.identification.docNumber,
-      },
-    },
-  };
   mercadopago.payment
-    .save(paymentData)
+    .save(req.body)
     .then(function (response) {
-      const { response: data } = response;
-      res.status(201).json({
-        detail: data.status_detail,
-        status: data.status,
-        id: data.id,
-      });
-
-      console.log(response);
+      const { status, status_detail, id } = response.body;
+      res.status(response.status).json({ status, status_detail, id });
     })
     .catch(function (error) {
-      console.log(error);
-      const { errorMessage, errorStatus } = validateError(error);
-      res.status(errorStatus).json({ error_message: errorMessage });
+      res.status(500).json({ error: true });
     });
 });
-
-function validateError(error) {
-  let errorMessage = "Unknown error cause";
-  let errorStatus = 400;
-
-  // if (error.cause) {
-  //   const sdkErrorMessage = error.cause[0].description;
-  //   errorMessage = sdkErrorMessage || errorMessage;
-
-  //   const sdkErrorStatus = error.status;
-  //   errorStatus = sdkErrorStatus || errorStatus;
-  // }
-
-  return { errorMessage, errorStatus };
-}
 
 module.exports = router;
