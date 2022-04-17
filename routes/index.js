@@ -80,7 +80,7 @@ router.post("/process_payment", (req, res, next) => {
       res.status(response.status).json({ status, status_detail, id });
     })
     .catch(function (error) {
-      res.status(500).json({ error: true });
+      res.status(500).json({ error: error });
     });
 });
 
