@@ -1,97 +1,62 @@
 const express = require("express");
-const {
-  insertUser,
-  client,
-  dbName,
-  usersCollectionName,
-} = require("../db/mongo");
+const { insertUser } = require("../db/mongo");
 const router = express.Router();
-const joi = require("joi");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
-const LocalStrategy = require("passport-local");
+const serializeUser = require("../lib/serializeUser");
+const useLocalStrategy = require("../lib/useLocalStrategy");
+const validateData = require("../lib/validateData");
 const saltRounds = 10;
 
-passport.use(
-  new LocalStrategy(
-    {
-      usernameField: "email",
-      passwordField: "contrasena",
-    },
-    async function (username, password, done) {
-      await client.connect();
-      const db = client.db(dbName);
-      const collection = db.collection(usersCollectionName);
+/* ---------------------
 
-      const result = await collection.findOne({ email: username });
+    EJECUCIÓN DE LIBRERIAS
 
-      if (!result) {
-        client.close();
-        return done(null, false);
-      }
+  --------------------- */
 
-      client.close();
+useLocalStrategy();
 
-      const match = await bcrypt.compare(password, result.contrasena);
+serializeUser();
 
-      if (!match) {
-        return done(null, false);
-      }
+/* ---------------------
 
-      return done(null, result);
-    }
-  )
-);
+    RUTAS PUBLICAS
 
-passport.serializeUser(function (user, done) {
-  done(null, user._id);
-});
+  --------------------- */
 
-const validateData = (data) => {
-  const schema = joi.object({
-    email: joi
-      .string()
-      .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
-      .trim()
-      .required(),
-    nombres: joi.string().min(3).max(100).trim().required(),
-    apellidos: joi.string().min(3).max(100).trim().required(),
-    contrasena: joi
-      .string()
-      .pattern(new RegExp("^[a-zA-Z0-9]{3,30}$"))
-      .trim()
-      .required(),
-    confirmacion: joi
-      .string()
-      .pattern(new RegExp("^[a-zA-Z0-9]{3,30}$"))
-      .trim()
-      .required(),
-  });
-
-  return schema.validate(data);
-};
-
+// MOSTRAR EL FORMULARIO PARA INICIAR SESION
 router.get("/", (req, res, next) => {
-  res.render("login");
+  res.render("login", { title: "Iniciar Sesión | STECH" });
 });
 
+// MOSTRAR EL FORMULARIO PARA REGISTRARSE
 router.get("/signup", (req, res, next) => {
-  res.render("signup");
+  res.render("signup", { title: "Registrarse | STECH" });
 });
 
+/* ---------------------
+
+    RUTAS POST PUBLICAS
+
+  --------------------- */
+
+// REGISTRAR A UN USUARIO
 router.post("/signup", (req, res, next) => {
   const validatedData = validateData(req.body);
 
+  // REDIRECCIONAR EN CASO DE QUE EL FORMATO DE LA DATA SEA INVALIDA
   if (validatedData.error) {
     res.redirect("/login/signup");
     return;
   }
 
+  // REDIRECCIONAR EN CASO DE QUE LAS CONTRASEÑA DE CONFIRMACION NO CONCUERDE
   if (validatedData.value.contrasena !== validatedData.value.confirmacion) {
     res.redirect("/login/signup");
     return;
   }
 
+  // ENCRIPTAR LA CONTRASEÑA Y GUARDARLA EN LA BASE DE DATOS
   bcrypt.hash(validatedData.value.contrasena, saltRounds, async (err, hash) => {
     const data = {
       nombres: validatedData.value.nombres,
@@ -102,6 +67,7 @@ router.post("/signup", (req, res, next) => {
 
     const result = await insertUser(data);
 
+    // REDIRECCIONAR EN CASO DE QUE UN CORREO SIMILAR YA SE REGISTRO
     if (!result.inserted) {
       res.redirect("/login/signup");
       return;
@@ -111,6 +77,7 @@ router.post("/signup", (req, res, next) => {
   });
 });
 
+// INICIAR SESION
 router.post(
   "/",
   passport.authenticate("local", { failureRedirect: "/login" }),

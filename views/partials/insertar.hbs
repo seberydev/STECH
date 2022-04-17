@@ -1,14 +1,13 @@
 <div class="mt-24">
-  {{! Crea una &nbsp;<p class="text-blue-500"> S-TECH </p>&nbsp; cuenta }}
   <span>
-    <h1 class="text-3xl flex justify-center"> Registrate aquí </h1>
+    <h1 class="text-3xl flex justify-center">Registrate aquí</h1>
     <div class="bg-blue-500 h-1 w-96 rounded-xl m-4 flex justify-start">
     </div>
   </span>
   <div class="form m-8 text-black">
     <form action="/login/signup" method="post" class="flex flex-col gap-5">
       <span>
-        <h1 class="text-sm text-gray-400"> Email </h1>
+        <h1 class="text-sm text-gray-400">Email</h1>
         <input
           type="email"
           name="email"
@@ -19,7 +18,7 @@
       <div>
         <span class="flex gap-2">
           <span>
-            <h2 class="text-sm text-gray-400"> Nombres </h2>
+            <h2 class="text-sm text-gray-400">Nombres</h2>
             <input
               type="text"
               name="nombres"
@@ -39,7 +38,7 @@
         </span>
       </div>
       <span>
-        <h2 class="text-sm text-gray-400"> Contraseña </h2>
+        <h2 class="text-sm text-gray-400">Contraseña</h2>
         <input
           type="password"
           name="contrasena"
@@ -48,7 +47,7 @@
         />
       </span>
       <span>
-        <h2 class="text-sm text-gray-400"> Confirmar contraseña </h2>
+        <h2 class="text-sm text-gray-400">Confirmar contraseña</h2>
         <input
           type="password"
           name="confirmacion"
@@ -58,16 +57,16 @@
       </span>
       <input
         type="submit"
-        class="bg-blue-500 text-white h-12 hover:bg-blue-600 duration-200"
+        class="bg-blue-500 cursor-pointer text-white h-12 hover:bg-blue-600 duration-200"
         value="Registrarse"
       />
       <span class="flex justify-center m-5">
-        <h3 class="">
-          Ya tienes una cuenta?
-          <a href="/login" class="text-blue-500 hover:underline">
-            Inicia sesión aquí
-          </a>
+        <h3>
+          Ya tienes una cuenta?&nbsp;
         </h3>
+        <a href="/login" class="text-blue-500 hover:underline">
+          Inicia sesión aquí
+        </a>
       </span>
     </form>
   </div>

@@ -1,44 +1,121 @@
 const express = require("express");
 const router = express.Router();
-const passport = require("passport");
-const { ObjectId } = require("mongodb");
-const { client, dbName, usersCollectionName } = require("../db/mongo");
+const mercadopago = require("mercadopago");
+const isAuth = require("../lib/isAuth");
+const deserializeUser = require("../lib/deserializeUser");
 
-passport.deserializeUser(async function (id, done) {
-  await client.connect();
-  const db = client.db(dbName);
-  const collection = db.collection(usersCollectionName);
-  collection.findOne({ _id: ObjectId(id) }, function (err, user) {
-    done(err, user);
-  });
+mercadopago.configurations.setAccessToken(
+  "TEST-6443081575674090-041513-3beeb8dc5adbdbeb488cb53f7b5fb43e-1107392567"
+);
+
+/* ---------------------
+
+    EJECUCIÓN DE LIBRERIAS
+
+  --------------------- */
+
+deserializeUser();
+
+/* ---------------------
+
+    RUTAS PUBLICAS
+
+  --------------------- */
+
+// SE MUESTRA LA PAGINA PRINCIPAL
+router.get("/", (req, res) => {
+  res.render("index", { title: "Inicio | STECH" });
 });
 
-const isAuth = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    return next();
-  } else {
-    res.redirect("/login");
-  }
-};
-
-router.get("/", async (req, res) => {
-  res.render("index");
+// SE MUESTRAN LOS TERMINOS DE USO
+router.get("/terminos-de-uso", (req, res) => {
+  res.render("usage_terms", { title: "Términos de uso | STECH" });
 });
 
-router.get("/assistence", (req, res, next) => {
-  res.render("assistence");
+// SE MUESTRAN LOS DATOS DE CONTACTO
+router.get("/contacto", (req, res, next) => {
+  res.render("contacto", { title: "Contacto | STECH" });
 });
 
-router.get("/usage_terms", (req, res, next) => {
-  res.render("usage_terms");
-});
-
-router.get("/onlineSupport", isAuth, (req, res, next) => {
-  res.render("onlineSupport");
-});
-
+// SE MUESTRAN LOS PRODUCTOS
 router.get("/productos", (req, res, next) => {
-  res.render("productos");
+  res.render("productos", { title: "Productos | STECH" });
 });
+
+/* ---------------------
+
+    RUTAS PRIVADAS
+
+  --------------------- */
+
+// SE MUESTRA EL CHAT
+router.get("/soporte", isAuth, (req, res, next) => {
+  res.render("soporte");
+});
+
+// SE MUESTRA EL CARRITO DEL USUARIO
+router.get("/carrito", (req, res, next) => {
+  res.render("user_car", { title: "Carrito | STECH" });
+});
+
+// SE MUESTRA EL PERFIL DEL USUARIO
+router.get("/perfil", isAuth, (req, res, next) => {
+  res.render("user_profile");
+});
+
+/****************** */
+
+router.post("/process_payment", (req, res, next) => {
+  const { body } = req;
+  const { payer } = body;
+
+  const paymentData = {
+    transaction_amount: Number(body.transaction_amount),
+    token: body.token,
+    description: body.description,
+    installments: Number(body.installments),
+    payment_method_id: body.paymentMethodId,
+    issuer_id: body.issuerId,
+    payer: {
+      email: payer.email,
+      identification: {
+        type: payer.identification.docType,
+        number: payer.identification.docNumber,
+      },
+    },
+  };
+  mercadopago.payment
+    .save(paymentData)
+    .then(function (response) {
+      const { response: data } = response;
+      res.status(201).json({
+        detail: data.status_detail,
+        status: data.status,
+        id: data.id,
+      });
+
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+      const { errorMessage, errorStatus } = validateError(error);
+      res.status(errorStatus).json({ error_message: errorMessage });
+    });
+});
+
+function validateError(error) {
+  let errorMessage = "Unknown error cause";
+  let errorStatus = 400;
+
+  // if (error.cause) {
+  //   const sdkErrorMessage = error.cause[0].description;
+  //   errorMessage = sdkErrorMessage || errorMessage;
+
+  //   const sdkErrorStatus = error.status;
+  //   errorStatus = sdkErrorStatus || errorStatus;
+  // }
+
+  return { errorMessage, errorStatus };
+}
 
 module.exports = router;
