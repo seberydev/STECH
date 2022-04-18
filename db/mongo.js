@@ -43,6 +43,16 @@ const insertUser = async (user) => {
   };
 };
 
+const insertPayment = async (payment) => {
+  await client.connect();
+  const db = client.db(dbName);
+  const collection = db.collection("payments");
+
+  await collection.insertOne(payment);
+
+  client.close();
+};
+
 module.exports = {
   client,
   url,
@@ -50,4 +60,5 @@ module.exports = {
   usersCollectionName,
   connectToMongo,
   insertUser,
+  insertPayment,
 };

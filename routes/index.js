@@ -3,6 +3,7 @@ const router = express.Router();
 const mercadopago = require("mercadopago");
 const isAuth = require("../lib/isAuth");
 const deserializeUser = require("../lib/deserializeUser");
+const { insertPayment } = require("../db/mongo");
 
 mercadopago.configurations.setAccessToken(
   process.env.MP_ACCESS_TOKEN ||
@@ -91,6 +92,11 @@ router.post("/process_payment", (req, res, next) => {
 router.post("/notifications", async (req, res) => {
   if (req.body.type == "payment") {
     const result = await mercadopago.payment.findById(req.body.data.id);
+
+    await insertPayment({
+      result,
+      data: req.body,
+    });
 
     res.status(200).json({ result });
   } else if (req.body.type == "test") {
