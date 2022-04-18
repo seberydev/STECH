@@ -6,7 +6,7 @@ const deserializeUser = require("../lib/deserializeUser");
 
 mercadopago.configurations.setAccessToken(
   process.env.MP_ACCESS_TOKEN ||
-    "TEST-8962167088219956-041722-a71bb00dff642a17a165c7f3dece5f8b-1107392567"
+    "TEST-4680153902253138-041813-d788ad6b245bdf7ed7b67ec8255f1691-1107392567"
 );
 
 /* ---------------------
@@ -56,12 +56,10 @@ router.get("/soporte", isAuth, (req, res, next) => {
 
 // SE MUESTRA EL CARRITO DEL USUARIO
 router.get("/carrito", async (req, res, next) => {
-  // const response = await mercadopago.payment_methods.listAll();
-
   res.render("user_car", {
     title: "Carrito | STECH",
     MP_PUBLIC_KEY:
-      process.env.MP_PUBLIC_KEY || "TEST-4f670c16-0042-400d-bc55-785c4ae3a907",
+      process.env.MP_PUBLIC_KEY || "TEST-564e7876-d0d0-41fe-ae71-963f0885db61",
   });
 });
 
