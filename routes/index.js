@@ -71,8 +71,14 @@ router.get("/perfil", isAuth, (req, res, next) => {
 /****************** */
 
 router.post("/process_payment", (req, res, next) => {
+  const data = {
+    ...req.body,
+    notification_url:
+      "https://stech-website.herokuapp.com/notifications?source_news=webhooks",
+  };
+
   mercadopago.payment
-    .save(req.body)
+    .save(data)
     .then(function (response) {
       const { status, status_detail, id } = response.body;
       res.status(response.status).json({ status, status_detail, id });
@@ -80,6 +86,18 @@ router.post("/process_payment", (req, res, next) => {
     .catch(function (error) {
       res.status(500).json({ error: error });
     });
+});
+
+router.post("/notifications", async (req, res) => {
+  if (req.body.type == "payment") {
+    const result = await mercadopago.payment.findById(req.body.data.id);
+
+    res.status(200).json({ result });
+  } else if (req.body.type == "test") {
+    res.status(200).json({ ok: true });
+  } else {
+    res.status(500).json({ error: error });
+  }
 });
 
 module.exports = router;
