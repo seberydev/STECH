@@ -41,6 +41,16 @@ router.get("/productos", (req, res) => {
   res.render("productos", { title: "Productos | STECH" });
 });
 
+// SE MUESTRAN LOS PRODUCTOS
+router.get("/manual-de-usuario", (req, res) => {
+  res.render("manual_usuario", { title: "Manual de usuario | STECH" });
+});
+
+// SE MUESTRAN LOS PRODUCTOS
+router.get("/manual-tecnico", (req, res) => {
+  res.render("manual_tecnico", { title: "Manual Técnico | STECH" });
+});
+
 /* ---------------------
 
     RUTAS PRIVADAS
