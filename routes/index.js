@@ -4,11 +4,7 @@ const mercadopago = require("mercadopago");
 const isAuth = require("../lib/isAuth");
 const deserializeUser = require("../lib/deserializeUser");
 const { insertPayment } = require("../db/mongo");
-
-mercadopago.configurations.setAccessToken(
-  process.env.MP_ACCESS_TOKEN ||
-    "TEST-4680153902253138-041813-d788ad6b245bdf7ed7b67ec8255f1691-1107392567"
-);
+const setAccessToken = require("../lib/setAccessToken");
 
 /* ---------------------
 
@@ -16,6 +12,7 @@ mercadopago.configurations.setAccessToken(
 
   --------------------- */
 
+setAccessToken();
 deserializeUser();
 
 /* ---------------------
@@ -35,12 +32,12 @@ router.get("/terminos-de-uso", (req, res) => {
 });
 
 // SE MUESTRAN LOS DATOS DE CONTACTO
-router.get("/contacto", (req, res, next) => {
+router.get("/contacto", (req, res) => {
   res.render("contacto", { title: "Contacto | STECH" });
 });
 
 // SE MUESTRAN LOS PRODUCTOS
-router.get("/productos", (req, res, next) => {
+router.get("/productos", (req, res) => {
   res.render("productos", { title: "Productos | STECH" });
 });
 
@@ -51,12 +48,12 @@ router.get("/productos", (req, res, next) => {
   --------------------- */
 
 // SE MUESTRA EL CHAT
-router.get("/soporte", isAuth, (req, res, next) => {
-  res.render("soporte");
+router.get("/soporte", isAuth, (req, res) => {
+  res.render("soporte", { title: "Soporte | STECH" });
 });
 
 // SE MUESTRA EL CARRITO DEL USUARIO
-router.get("/carrito", async (req, res, next) => {
+router.get("/carrito", isAuth, async (req, res) => {
   res.render("user_car", {
     title: "Carrito | STECH",
     MP_PUBLIC_KEY:
@@ -64,14 +61,36 @@ router.get("/carrito", async (req, res, next) => {
   });
 });
 
-// SE MUESTRA EL PERFIL DEL USUARIO
-router.get("/perfil", isAuth, (req, res, next) => {
-  res.render("user_profile");
+// SE CIERRA LAS SESION
+router.get("/logout", isAuth, (req, res) => {
+  req.logout();
+  res.redirect("/login");
 });
 
-/****************** */
+// SE MUESTRA EL PERFIL DEL USUARIO
+router.get("/perfil", isAuth, (req, res, next) => {
+  let nombres = "test";
+  let apellidos = "test";
 
-router.post("/process_payment", (req, res, next) => {
+  if (req.user) {
+    nombres = req.user.nombres;
+    apellidos = req.user.apellidos;
+  }
+
+  res.render("user_profile", {
+    title: "Perfil | STECH",
+    nombres,
+    apellidos,
+  });
+});
+
+/* ---------------------
+
+    RUTAS POST
+
+  --------------------- */
+
+router.post("/process_payment", (req, res) => {
   const data = {
     ...req.body,
     notification_url:

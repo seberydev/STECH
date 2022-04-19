@@ -25,23 +25,23 @@ serializeUser();
   --------------------- */
 
 // MOSTRAR EL FORMULARIO PARA INICIAR SESION
-router.get("/", (req, res, next) => {
+router.get("/", (req, res) => {
   res.render("login", { title: "Iniciar Sesión | STECH" });
 });
 
 // MOSTRAR EL FORMULARIO PARA REGISTRARSE
-router.get("/signup", (req, res, next) => {
+router.get("/signup", (req, res) => {
   res.render("signup", { title: "Registrarse | STECH" });
 });
 
 /* ---------------------
 
-    RUTAS POST PUBLICAS
+    RUTAS POST
 
   --------------------- */
 
 // REGISTRAR A UN USUARIO
-router.post("/signup", (req, res, next) => {
+router.post("/signup", (req, res) => {
   const validatedData = validateData(req.body);
 
   // REDIRECCIONAR EN CASO DE QUE EL FORMATO DE LA DATA SEA INVALIDA

@@ -1,5 +1,12 @@
 {{>nav}}
 
-Insertar perfil de usuario aqui
+<div class="flex justify-center items-center bg-gray-200 m-6" style="padding: 20px;">
+  <span class="text-2xl m-6 flex font-medium" style="margin-right: 50px;">Bienvenido {{ nombres }} {{ apellidos }}</span>
+</div>
+
+<div class="flex justify-center items-center bg-gray-200 m-6" style="padding: 20px;">
+  <a href="/carrito" class="text-blue-500 hover:underline m-5">Tu Carrito</a>
+  <a href="/logout" class="hover:underline m-5" style="color: red">Cerrar Sesión</a>
+</div>
 
 {{>footer}}
