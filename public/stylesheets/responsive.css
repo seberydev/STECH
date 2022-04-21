@@ -36,3 +36,19 @@
     width: 100%;
   }
 }
+
+@media only screen and (max-width: 720px) {
+  .custom-footer {
+    flex-direction: column;
+    height: auto;
+    text-align: center;
+  }
+
+  .custom-footer {
+    margin: 0;
+  }
+
+  .custom-footer a:last-child {
+    margin-bottom: 1.5rem;
+  }
+}
