@@ -72,3 +72,17 @@
     grid-template-columns: repeat(1, minmax(0, 1fr));
   }
 }
+
+@media only screen and (max-width: 720px) {
+  .manual-usuario {
+    text-align: center;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
+
+@media only screen and (max-width: 720px) {
+  .manual-tecnico {
+    text-align: center;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
