@@ -1,0 +1,21 @@
+@media only screen and (max-width: 720px) {
+  .navbar {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    height: auto;
+  }
+
+  .navbar ul {
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  .navbar > div:last-child {
+    margin: 10px;
+  }
+}
+
+@media only screen and (max-width: 720px) {
+  .news {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
