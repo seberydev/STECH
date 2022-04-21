@@ -92,3 +92,18 @@
     width: 90%;
   }
 }
+
+@media only screen and (max-width: 720px) {
+  .signup {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+
+  .signup > div {
+    height: auto;
+  }
+
+  .signup > div:first-child {
+    height: auto;
+    padding: 50px;
+  }
+}
