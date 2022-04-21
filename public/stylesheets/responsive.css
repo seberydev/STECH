@@ -26,3 +26,13 @@
     grid-template-columns: repeat(1, minmax(0, 1fr));
   }
 }
+
+@media only screen and (max-width: 720px) {
+  .search {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+
+  .search > div:first-child h1 {
+    width: 100%;
+  }
+}
