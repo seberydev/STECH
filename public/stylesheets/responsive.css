@@ -52,3 +52,9 @@
     margin-bottom: 1.5rem;
   }
 }
+
+@media only screen and (max-width: 720px) {
+  .productos > div:first-child {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
