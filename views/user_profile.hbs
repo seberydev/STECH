@@ -9,4 +9,12 @@
   <a href="/logout" class="hover:underline m-5" style="color: red">Cerrar Sesión</a>
 </div>
 
+{{#if soporte}}
+  <div class="flex justify-center items-center bg-gray-200 m-6" style="padding: 20px;">
+  <a href="/mensajes" class="text-blue-500 hover:underline m-5">Tus Mensajes</a>
+</div>
+{{/if}}
+
+
+
 {{>footer}}

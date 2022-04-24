@@ -59,7 +59,18 @@ router.get("/manual-tecnico", (req, res) => {
 
 // SE MUESTRA EL CHAT
 router.get("/soporte", isAuth, (req, res) => {
-  res.render("soporte", { title: "Soporte | STECH" });
+  res.render("soporte", {
+    title: "Soporte | STECH",
+    soporte: req.user.soporte ? req.user.soporte : "",
+    nombre: req.user.nombres.split(" ")[0],
+  });
+});
+
+// SE MUESTRAN LOS MENSAJES DEL CHAT (SOLO PARA EL ADMIN)
+router.get("/mensajes", isAuth, (req, res) => {
+  if (!req.user.soporte) res.redirect("/soporte");
+
+  res.render("mensajes", { title: "Mensajes | STECH" });
 });
 
 // SE MUESTRA EL CARRITO DEL USUARIO
@@ -81,16 +92,19 @@ router.get("/logout", isAuth, (req, res) => {
 router.get("/perfil", isAuth, (req, res, next) => {
   let nombres = "test";
   let apellidos = "test";
+  let soporte = null;
 
   if (req.user) {
     nombres = req.user.nombres;
     apellidos = req.user.apellidos;
+    soporte = req.user.soporte;
   }
 
   res.render("user_profile", {
     title: "Perfil | STECH",
     nombres,
     apellidos,
+    soporte,
   });
 });
 

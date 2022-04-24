@@ -1,5 +1,24 @@
 {{>nav}}
+<input hidden id="soporte" value={{soporte}}></input>
+<input hidden id="nombre" value={{nombre}}></input>
 
-Insertar chat aqui
+<div class="flex flex-col justify-center items-center bg-gray-200 m-6" style="padding: 20px;">
+  <h1 class="text-m text-black-400 font-bold">Contacta al soporte</h1>
+  <textarea id="enviarInput" class="border-gray-300 border-2 bg-gray-5" cols="30" rows="2" style="padding: 10px; margin: 25px"></textarea>
+  <button type="submit"
+      class="bg-blue-500 text-white h-10 self-center p-2 hover:bg-blue-600 duration-200 cursor-pointer" id="enviarBtn">Enviar Mensaje</button>
+      {{#if soporte}}
+      <textarea placeholder="Inserta el código" id="responseCode" class="border-gray-300 border-2 bg-gray-5" cols="20" rows="1" style="padding: 10px; margin: 25px"></textarea>
+      {{/if}}
+      
+</div>
+
+<div  class="flex flex-col justify-center items-center bg-gray-200 m-6" style="padding: 20px;">
+  <h1 class="text-m text-black-400 font-bold">Chat</h1>
+  <div id="chatContainer"></div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/javascripts/chat.js" defer></script>
 
 {{>footer}}

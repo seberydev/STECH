@@ -479,6 +479,9 @@ video {
 .border-2 {
   border-width: 2px;
 }
+.border-5 {
+  border-width: 5px;
+}
 .border-b-2 {
   border-bottom-width: 2px;
 }
