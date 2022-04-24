@@ -66,13 +66,6 @@ router.get("/soporte", isAuth, (req, res) => {
   });
 });
 
-// SE MUESTRAN LOS MENSAJES DEL CHAT (SOLO PARA EL ADMIN)
-router.get("/mensajes", isAuth, (req, res) => {
-  if (!req.user.soporte) res.redirect("/soporte");
-
-  res.render("mensajes", { title: "Mensajes | STECH" });
-});
-
 // SE MUESTRA EL CARRITO DEL USUARIO
 router.get("/carrito", isAuth, async (req, res) => {
   res.render("user_car", {
