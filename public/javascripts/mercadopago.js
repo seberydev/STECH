@@ -92,8 +92,10 @@ product03.addEventListener("click", () => {
 
 const successContainer = document.getElementById("successContainer");
 const errorContainer = document.getElementById("errorContainer");
+const successText = document.getElementById("successText");
 
-const showSuccess = () => {
+const showSuccess = (text = "¡Gracias Por Tu Compra!") => {
+  successText.textContent = text;
   successContainer.style.display = "block";
   errorContainer.style.display = "none";
 };
@@ -228,10 +230,11 @@ oxxoSubmit.addEventListener("click", (e) => {
   })
     .then((res) => res.json())
     .then((data) => {
+      console.log(data);
       if (data.error) {
         showError();
       } else {
-        showSuccess();
+        showSuccess(`¡Gracias Por Tu Compra! Referencia: ${data.id}`);
       }
     })
     .catch(() => showError());
