@@ -98,6 +98,10 @@ const showSuccess = (text = "¡Gracias Por Tu Compra!") => {
   successText.textContent = text;
   successContainer.style.display = "block";
   errorContainer.style.display = "none";
+  document.getElementById("form-oxxo__submit").style.display = "none";
+  document.getElementById("form-oxxo").style.display = "none";
+  document.getElementById("form-checkout").style.display = "none";
+  document.getElementById("car").style.display = "none";
 };
 
 const showError = () => {

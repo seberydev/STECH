@@ -1,6 +1,6 @@
 {{>nav}}
 
-<div class="userCar01 flex justify-center items-center bg-gray-200 m-6" style="padding: 20px;">
+<div id="car" class="userCar01 flex justify-center items-center bg-gray-200 m-6" style="padding: 20px;">
   <span class="text-2xl m-6 flex font-medium" style="margin-right: 50px;">Tu Carrito</span>
   <ul>
     <li style="margin-bottom: 20px;">
@@ -50,8 +50,9 @@
     style="margin-left: 20px;">Pagar</button>
 </form>
 
-<div style="display: none" id="successContainer" class="flex justify-center items-center bg-blue-500 m-6" style="padding: 20px;">
-  <p id="successText" class="text-2xl m-6 flex font-medium text-white">¡Gracias Por Tu Compra!</p>
+<div id="successContainer" class="flex flex-col justify-center  bg-blue-500 m-6" style="display: none; align-items: flex-start;">
+  <p id="successText" class="text-2xl m-6 font-medium text-white">¡Gracias Por Tu Compra!</p>
+  <a href="/" class="bg-white p-2 hover:bg-blue-600 hover:text-white duration-200" style="margin-left: 20px; margin-bottom: 20px; display:inline-block;">Inicio</a>
 </div>
 
 <div id="errorContainer" style="background-color: red !important; display: none" class="flex justify-center items-center m-6 " style="padding: 20px;" >
