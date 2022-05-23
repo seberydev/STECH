@@ -7,53 +7,58 @@
   <div class="form m-8 text-black">
     <form action="/login/signup" method="post" class="flex flex-col gap-5">
       <span>
-        <h1 class="text-sm text-gray-400">Email</h1>
+        <h1 class="text-m text-gray-400">Email</h1>
         <input
           type="email"
           name="email"
           class="border-gray-300 border-b-2 w-full bg-gray-50"
           required
         />
+        <p class="text-gray-400 text-sm">.com y .net</p>
       </span>
       <div>
         <span class="flex gap-2">
           <span>
-            <h2 class="text-sm text-gray-400">Nombres</h2>
+            <h2 class="text-m text-gray-400">Nombres</h2>
             <input
               type="text"
               name="nombres"
               class="border-gray-300 border-b-2 w-full bg-gray-50"
               required
             />
+            <p class="text-gray-400 text-sm">3-100 caracteres</p>
           </span>
           <span>
-            <h2 class="text-sm text-gray-400"> Apellidos </h2>
+            <h2 class="text-m text-gray-400"> Apellidos </h2>
             <input
               type="text"
               name="apellidos"
               class="border-gray-300 border-b-2 w-full bg-gray-50"
               required
             />
+            <p class="text-gray-400 text-sm">3-100 caracteres</p>
           </span>
         </span>
       </div>
       <span>
-        <h2 class="text-sm text-gray-400">Contraseña</h2>
+        <h2 class="text-m text-gray-400">Contraseña</h2>
         <input
           type="password"
           name="contrasena"
           class="border-gray-300 border-b-2 w-full bg-gray-50"
           required
         />
+        <p class="text-gray-400 text-sm">3-30 caracteres, alfanumérica</p>
       </span>
       <span>
-        <h2 class="text-sm text-gray-400">Confirmar contraseña</h2>
+        <h2 class="text-m text-gray-400">Confirmar contraseña</h2>
         <input
           type="password"
           name="confirmacion"
           class="border-gray-300 border-b-2 w-full bg-gray-50"
           required
         />
+        <p class="text-gray-400 text-sm">3-30 caracteres, alfanumérica</p>
       </span>
       <input
         type="submit"
