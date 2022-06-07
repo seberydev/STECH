@@ -1,30 +1,72 @@
 {{>nav}}
 
-<div id="car" class="userCar01 flex justify-center items-center bg-gray-200 m-6" style="padding: 20px;">
-  <span class="text-2xl m-6 flex font-medium" style="margin-right: 50px;">Tu Carrito</span>
-  <ul>
-    <li style="margin-bottom: 20px;">
-      <p class="text-m text-black-400 font-bold">Soporte profesional</p>
-      <p>Precio: $1,999</p>
-      <button id="product01" class="text-blue-500 hover:underline">Añadir</button>
-    </li>
-    <li style="margin-bottom: 20px;">
-      <p class="text-m text-black-400 font-bold">Equipo para el trabajo</p>
-      <p>Precio: $2,999</p>
-      <button class="text-blue-500 hover:underline" id="product02">Añadir</button>
-    </li>
-    <li style="margin-bottom: 20px;">
-      <p class="text-m text-black-400 font-bold">Manejo de infraestructura</p>
-      <p>Precio: $999</p>
-      <button class="text-blue-500 hover:underline" id="product03">Añadir</button>
-    </li>
-    <p id="precioTotal" class="text-2xl m-6 flex font-medium">Precio Total: $0</p>
-  </ul>
+<div id="car" class="crt userCar01 flex justify-center items-center bg-gray-200 m-6">
+  <span class="text-2xl m-6 font-medium">Tu Carrito</span>
+  <section class="app">
+    <i class="fa fa-rocket"></i>
+    <article class="feature1">
+      <input type="checkbox" id="product01" />
+      <div>
+        <span>
+          <p class="text-m text-black-400 font-bold">Soporte profesional</p>
+          <p>Precio: $1,999</p>
+        </span>
+      </div>
+    </article>
+
+    <article class="feature2">
+      <input type="checkbox" id="product02" />
+      <div>
+        <span>
+          <p class="text-m text-black-400 font-bold">Equipo para el trabajo</p>
+          <p>Precio: $2,999</p>
+        </span>
+      </div>
+    </article>
+
+    <article class="feature3">
+      <input type="checkbox" id="product03" />
+      <div>
+        <span>
+          <p class="text-m text-black-400 font-bold">Manejo de infraestructura</p>
+          <p>Precio: $999</p>
+        </span>
+      </div>
+    </article>
+    <p id="precioTotal" class="text-2xl font-medium">Precio Total: $0</p>
+    <br>
+    <p class="text-2xl font-medium" style="margin-bottom: 5px;">Pagar con:</p>
+    <button class="bF" id="bMP">
+      <span class="label">Mercado Pago</span>
+      <span class="icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+          <path fill="none" d="M0 0h24v24H0z"></path>
+          <path fill="currentColor"
+            d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"></path>
+        </svg>
+      </span>
+    </button>
+    <button class="bF" id="bOXXO">
+      <span class="label">OXXO</span>
+      <span class="icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+          <path fill="none" d="M0 0h24v24H0z"></path>
+          <path fill="currentColor"
+            d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"></path>
+        </svg>
+      </span>
+    </button>
+  </section>
 </div>
 
-<form id="form-checkout" class="userCar01 flex justify-center items-center bg-gray-200 m-6" style="padding: 20px;">
+<form id="form-checkout" class="fMP userCar01 flex justify-center items-center bg-gray-200 m-6 hidden"
+  style="padding: 20px;">
   <input id="MP_PUBLIC_KEY" hidden type="text" value={{MP_PUBLIC_KEY}}>
+  <button class="bF" id="back">
+    <span class="label">Atrás</span>
+  </button>
   <p class="text-2xl m-6 flex font-medium">Pagar con tarjeta de crédito</p>
+    <p id="tot1" class="text-2xl font-medium">Total a Pagar: $0</p>
   <div class="flex justify-center flex-col gap-5 items-center bg-gray-200 m-6">
     <input id="MP_PUBLIC_KEY" hidden type="text" value={{MP_PUBLIC_KEY}}>
     <input type="text" style="padding: 5px" name="cardNumber" id="form-checkout__cardNumber" />
@@ -41,8 +83,13 @@
   </div>
 </form>
 
-<form id="form-oxxo" class=" userCar01 flex justify-center items-center bg-gray-200 m-6" style="padding: 20px;">
+<form id="form-oxxo" class="fOXXO userCar01 flex justify-center items-center bg-gray-200 m-6 hidden"
+  style="padding: 20px;">
+  <button class="bF" id="back">
+    <span class="label">Atrás</span>
+  </button>
   <p class="text-2xl m-6 flex font-medium">Pagar por OXXO</p>
+    <p id="tot2" class="text-2xl font-medium">Total a Pagar: $0</p>
   <input style="padding: 5px" type="email" name="cardholderEmail" id="form-oxxo__cardholderEmail" placeholder="E-mail"
     class="border-gray-300 border-b-2  bg-gray-50" />
   <button type="submit" id="form-oxxo__submit"
@@ -50,13 +97,17 @@
     style="margin-left: 20px;">Pagar</button>
 </form>
 
-<div id="successContainer" class="flex flex-col justify-center  bg-blue-500 m-6" style="display: none; align-items: flex-start;">
+<div id="successContainer" class="flex flex-col justify-center  bg-blue-500 m-6"
+  style="display: none; align-items: flex-start;">
   <p id="successText" class="text-2xl m-6 font-medium text-white">¡Gracias Por Tu Compra!</p>
-  <a href="/" class="bg-white p-2 hover:bg-blue-600 hover:text-white duration-200" style="margin-left: 20px; margin-bottom: 20px; display:inline-block;">Inicio</a>
+  <a href="/" class="bg-white p-2 hover:bg-blue-600 hover:text-white duration-200"
+    style="margin-left: 20px; margin-bottom: 20px; display:inline-block;">Inicio</a>
 </div>
 
-<div id="errorContainer" style="background-color: red !important; display: none" class="flex justify-center items-center m-6 " style="padding: 20px;" >
-  <p class="text-2xl m-6 flex font-medium text-white text-center" style="text-align: center !important">¡Hubo un error al realizar tu compra!</p>
+<div id="errorContainer" style="background-color: red !important; display: none"
+  class="flex justify-center items-center m-6 " style="padding: 20px;">
+  <p class="text-2xl m-6 flex font-medium text-white text-center" style="text-align: center !important">¡Hubo un error
+    al realizar tu compra!</p>
 </div>
 
 <script src="https://sdk.mercadopago.com/js/v2"></script>
