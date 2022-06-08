@@ -46,13 +46,13 @@ router.post("/signup", (req, res) => {
 
   // REDIRECCIONAR EN CASO DE QUE EL FORMATO DE LA DATA SEA INVALIDA
   if (validatedData.error) {
-    res.redirect("/login/signup");
+    res.redirect("/login/signup?errSU=1");
     return;
   }
 
   // REDIRECCIONAR EN CASO DE QUE LAS CONTRASEÑA DE CONFIRMACION NO CONCUERDE
   if (validatedData.value.contrasena !== validatedData.value.confirmacion) {
-    res.redirect("/login/signup");
+    res.redirect("/login/signup?errSU=2");
     return;
   }
 
@@ -69,7 +69,7 @@ router.post("/signup", (req, res) => {
 
     // REDIRECCIONAR EN CASO DE QUE UN CORREO SIMILAR YA SE REGISTRO
     if (!result.inserted) {
-      res.redirect("/login/signup");
+      res.redirect("/login/signup?errSU=3");
       return;
     }
 
@@ -80,9 +80,9 @@ router.post("/signup", (req, res) => {
 // INICIAR SESION
 router.post(
   "/",
-  passport.authenticate("local", { failureRedirect: "/login" }),
+  passport.authenticate("local", { failureRedirect: "/login?err=1" }),
   function (req, res) {
-    res.redirect("/");
+    res.redirect("/?good=1");
   }
 );
 

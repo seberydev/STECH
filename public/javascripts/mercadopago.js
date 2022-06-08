@@ -6,8 +6,6 @@
 
 const tarjetaPagoSubmit = document.getElementById("form-checkout__submit");
 const oxxoPagoSubmit = document.getElementById("form-oxxo__submit");
-tarjetaPagoSubmit.style.display = "none";
-oxxoPagoSubmit.style.display = "none";
 
 let total = 0;
 
@@ -24,20 +22,13 @@ const product01 = document.getElementById("product01");
 product01.addEventListener("click", () => {
   if (product01Añadido) {
     total -= product01Amount;
-    product01.innerText = "Añadir";
     product01Añadido = false;
   } else {
-    product01.innerText = "Quitar";
     total += product01Amount;
     product01Añadido = true;
   }
 
   actualizarPrecio();
-
-  if (total > 0) {
-    tarjetaPagoSubmit.style.display = "block";
-    oxxoPagoSubmit.style.display = "block";
-  }
 });
 
 let product02Añadido = false;
@@ -46,20 +37,13 @@ const product02 = document.getElementById("product02");
 product02.addEventListener("click", () => {
   if (product02Añadido) {
     total -= product02Amount;
-    product02.innerText = "Añadir";
     product02Añadido = false;
   } else {
-    product02.innerText = "Quitar";
     total += product02Amount;
     product02Añadido = true;
   }
 
   actualizarPrecio();
-
-  if (total > 0) {
-    tarjetaPagoSubmit.style.display = "block";
-    oxxoPagoSubmit.style.display = "block";
-  }
 });
 
 let product03Añadido = false;
@@ -68,21 +52,71 @@ const product03 = document.getElementById("product03");
 product03.addEventListener("click", () => {
   if (product03Añadido) {
     total -= product03Amount;
-    product03.innerText = "Añadir";
     product03Añadido = false;
   } else {
-    product03.innerText = "Quitar";
     total += product03Amount;
     product03Añadido = true;
   }
 
   actualizarPrecio();
-
-  if (total > 0) {
-    tarjetaPagoSubmit.style.display = "block";
-    oxxoPagoSubmit.style.display = "block";
-  }
 });
+
+// APARECER FORMULARIOS O REAPARECER ELECCIÓN DE FORMA DE PAGO
+let bMP = document.getElementById('bMP')
+let bOXXO = document.getElementById('bOXXO')
+let fMP = document.querySelector('.fMP')
+let fOXXO = document.querySelector('.fOXXO')
+let crt = document.querySelector('.crt')
+let back = document.getElementById('back')
+let tot1 = document.getElementById('tot1')
+let tot2 = document.getElementById('tot2')
+
+// PARA LAS ALERTAS
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'bottom',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: false,
+  didOpen: (toast) => {
+  toast.addEventListener('mouseenter', Swal.stopTimer)
+  toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+})
+
+bMP.addEventListener('click', ()=>{
+  if(total <= 0){
+    Toast.fire({
+      icon: 'error',
+      title: 'ERROR: Compra con valor a $0'
+    })
+    return
+  }
+
+  fMP.classList.remove('hidden')
+  crt.classList.add('hidden')
+  tot1.innerText = `Total a Pagar: $${total.toLocaleString()}`;
+})
+
+bOXXO.addEventListener('click', ()=>{
+  if(total <= 0){
+    Toast.fire({
+      icon: 'error',
+      title: 'ERROR: Compra con valor a $0'
+    })
+    return
+  }
+
+  fOXXO.classList.remove('hidden')
+  crt.classList.add('hidden')
+  tot2.innerText = `Total a Pagar: $${total.toLocaleString()}`;
+})
+
+back.addEventListener('click', ()=>{
+  fMP.classList.add('hidden')
+  fOXXO.classList.add('hidden')
+  crt.classList.remove('hidden')
+})
 
 /* ---------------------
 
@@ -91,13 +125,11 @@ product03.addEventListener("click", () => {
   --------------------- */
 
 const successContainer = document.getElementById("successContainer");
-const errorContainer = document.getElementById("errorContainer");
 const successText = document.getElementById("successText");
 
 const showSuccess = (text = "¡Gracias Por Tu Compra!") => {
   successText.textContent = text;
   successContainer.style.display = "block";
-  errorContainer.style.display = "none";
   document.getElementById("form-oxxo__submit").style.display = "none";
   document.getElementById("form-oxxo").style.display = "none";
   document.getElementById("form-checkout").style.display = "none";
@@ -105,8 +137,10 @@ const showSuccess = (text = "¡Gracias Por Tu Compra!") => {
 };
 
 const showError = () => {
-  successContainer.style.display = "none";
-  errorContainer.style.display = "block";
+  Toast.fire({
+    icon: 'error',
+    title: 'Error al realizar la compra'
+  })
 };
 
 const MP_PUBLIC_KEY = document.getElementById("MP_PUBLIC_KEY").value;
@@ -152,7 +186,13 @@ const cardForm = mp.cardForm({
   },
   callbacks: {
     onFormMounted: (error) => {
-      if (error) return console.warn("Form Mounted handling error: ", error);
+      if (error) {
+        Toast.fire({
+          icon: 'error',
+          title: 'Error al realizar la compra'
+        })
+        return console.warn("Form Mounted handling error: ", error)
+      };
       console.log("Form mounted");
     },
     onSubmit: (event) => {

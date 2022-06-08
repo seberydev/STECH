@@ -1,18 +1,21 @@
-{{>nav}} 
+<script src="/javascripts/sweetalert2.min.js"></script>
+<link rel="stylesheet" href="/stylesheets/sweetalert2.css">
 
-<form  action="/login" method="post" class="login flex justify-center items-center bg-gray-200 h-screen" style="margin: 0;" >
+{{>nav}}
+
+<form  action="/login" id="form" method="post" class="login flex justify-center items-center bg-gray-200 h-screen" style="margin: 0;" >
   <div style="overflow: hidden" class="bg-white h-96 w-4/12">
     <span class="text-2xl m-6 flex font-medium">Inicia Sesión</span>
     <div class="w-3/4 m-6">
       <span>
         <h1 class="text-sm text-gray-400">Email</h1>
-        <input type="email" name="email" class="border-gray-300 border-b-2 w-full bg-gray-50">
+        <input type="email" name="email" id="email" required class="border-gray-300 border-b-2 w-full bg-gray-50">
       </span>
     </div>
     <div class="w-3/4 m-6">
       <span>
         <h1 class="text-sm text-gray-400">Contraseña</h1>
-        <input type="password" name="contrasena" class="border-gray-300 border-b-2 w-full bg-gray-50">
+        <input type="password" name="contrasena" id="pass" required class="border-gray-300 border-b-2 w-full bg-gray-50">
       </span>
     </div>
     <span class="flex justify-start m-6">
@@ -27,4 +30,6 @@
   </div>
 </form>
 
-{{>footer}} 
+{{>footer}}
+
+<script src="/javascripts/alerts.js"></script>
