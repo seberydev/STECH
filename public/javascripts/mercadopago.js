@@ -8,6 +8,7 @@ const tarjetaPagoSubmit = document.getElementById("form-checkout__submit");
 const oxxoPagoSubmit = document.getElementById("form-oxxo__submit");
 
 let total = 0;
+let UC = []
 
 const actualizarPrecio = () => {
   const precioTotal = document.getElementById("precioTotal");
@@ -23,9 +24,12 @@ product01.addEventListener("click", () => {
   if (product01Añadido) {
     total -= product01Amount;
     product01Añadido = false;
+    let a = UC.findIndex(x => x == 'Soporte Profesional\n')
+    UC.splice(a, 1)
   } else {
     total += product01Amount;
     product01Añadido = true;
+    UC.push('Soporte Profesional\n')
   }
 
   actualizarPrecio();
@@ -38,9 +42,12 @@ product02.addEventListener("click", () => {
   if (product02Añadido) {
     total -= product02Amount;
     product02Añadido = false;
+    let a = UC.findIndex(x => x == 'Equipo para Trabajo\n')
+    UC.splice(a, 1)
   } else {
     total += product02Amount;
     product02Añadido = true;
+    UC.push('Equipo para Trabajo\n')
   }
 
   actualizarPrecio();
@@ -53,9 +60,12 @@ product03.addEventListener("click", () => {
   if (product03Añadido) {
     total -= product03Amount;
     product03Añadido = false;
+    let a = UC.findIndex(x => x == 'Manejo de Infraestructura\n')
+    UC.splice(a, 1)
   } else {
     total += product03Amount;
     product03Añadido = true;
+    UC.push('Manejo de Infraestructura\n')
   }
 
   actualizarPrecio();
@@ -70,6 +80,8 @@ let crt = document.querySelector('.crt')
 let back = document.getElementById('back')
 let tot1 = document.getElementById('tot1')
 let tot2 = document.getElementById('tot2')
+const UCar = document.getElementById('UCar')
+const UCar2 = document.getElementById('UCar2')
 
 // PARA LAS ALERTAS
 const Toast = Swal.mixin({
@@ -79,13 +91,13 @@ const Toast = Swal.mixin({
   timer: 3000,
   timerProgressBar: false,
   didOpen: (toast) => {
-  toast.addEventListener('mouseenter', Swal.stopTimer)
-  toast.addEventListener('mouseleave', Swal.resumeTimer)
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
   }
 })
 
-bMP.addEventListener('click', ()=>{
-  if(total <= 0){
+bMP.addEventListener('click', () => {
+  if (total <= 0) {
     Toast.fire({
       icon: 'error',
       title: 'ERROR: Compra con valor a $0'
@@ -95,11 +107,13 @@ bMP.addEventListener('click', ()=>{
 
   fMP.classList.remove('hidden')
   crt.classList.add('hidden')
+  UCar.innerText = `Servicios Contratados:\n${UC.sort().toLocaleString().replaceAll(',', '')}`
+  UCar2.innerText = `Servicios Contratados:\n${UC.sort().toLocaleString().replaceAll(',', '')}`
   tot1.innerText = `Total a Pagar: $${total.toLocaleString()}`;
 })
 
-bOXXO.addEventListener('click', ()=>{
-  if(total <= 0){
+bOXXO.addEventListener('click', () => {
+  if (total <= 0) {
     Toast.fire({
       icon: 'error',
       title: 'ERROR: Compra con valor a $0'
@@ -109,10 +123,12 @@ bOXXO.addEventListener('click', ()=>{
 
   fOXXO.classList.remove('hidden')
   crt.classList.add('hidden')
+  UCar.innerText = `Servicios Contratados:\n${UC.sort().toLocaleString().replaceAll(',', '')}`
+  UCar2.innerText = `Servicios Contratados:\n${UC.sort().toLocaleString().replaceAll(',', '')}`
   tot2.innerText = `Total a Pagar: $${total.toLocaleString()}`;
 })
 
-back.addEventListener('click', ()=>{
+back.addEventListener('click', () => {
   fMP.classList.add('hidden')
   fOXXO.classList.add('hidden')
   crt.classList.remove('hidden')
