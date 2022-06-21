@@ -50,8 +50,10 @@ if(params.has('errSU')){
 
 // Inicio de Sesión Exitoso
 if(params.has('good')){
-    Toast.fire({
+    Swal.fire({
         icon: 'success',
-        title: '¡Bienvenido, disfrute la experiencia!'
+        title: '¡Bienvenido, disfrute la experiencia!',
+        text: 'Al continuar navegando en esta página acepta los términos, condiciones, y uso de cookies.',
+        backdrop: false
     })
 }

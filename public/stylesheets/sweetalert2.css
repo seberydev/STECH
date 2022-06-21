@@ -68,12 +68,14 @@
   min-width: 2em;
   height: 2em;
   margin: 0 0.5em 0 0;
+  overflow-y: hidden;
 }
 .swal2-popup.swal2-toast .swal2-icon .swal2-icon-content {
   display: flex;
   align-items: center;
   font-size: 1.8em;
   font-weight: bold;
+  overflow-y: hidden;
 }
 .swal2-popup.swal2-toast .swal2-icon.swal2-success .swal2-success-ring {
   width: 2em;
@@ -700,6 +702,7 @@
 .swal2-icon.swal2-success {
   border-color: #a5dc86;
   color: #a5dc86;
+  overflow-y: hidden;
 }
 .swal2-icon.swal2-success [class^=swal2-success-circular-line] {
   position: absolute;
@@ -732,6 +735,7 @@
   height: 100%;
   border: 0.25em solid rgba(165, 220, 134, 0.3);
   border-radius: 50%;
+  overflow-y: hidden;
 }
 .swal2-icon.swal2-success .swal2-success-fix {
   position: absolute;
