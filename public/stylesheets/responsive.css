@@ -123,3 +123,26 @@
   width: 100%;
   min-width: 250px;
 }
+
+footer {
+  background-color: rgba(0, 0, 0, 0.016);
+  display: flex;
+  flex-direction: column;
+  padding: 18px;
+}
+
+@media only screen and (max-width: 720px) {
+  footer > div:last-child {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .top-responsive {
+    margin-top: 14px !important;
+  }
+}
+
+footer > div:last-child {
+  display: flex;
+  justify-content: space-between;
+}

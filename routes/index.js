@@ -32,8 +32,8 @@ router.get("/terminos-de-uso", (req, res) => {
 });
 
 // SE MUESTRAN LOS DATOS DE CONTACTO
-router.get("/contacto", (req, res) => {
-  res.render("contacto", { title: "Contacto | STECH" });
+router.get("/faq", (req, res) => {
+  res.render("contacto", { title: "FAQ | STECH" });
 });
 
 // SE MUESTRAN LOS PRODUCTOS
