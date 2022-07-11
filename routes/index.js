@@ -3,7 +3,7 @@ const router = express.Router();
 const mercadopago = require("mercadopago");
 const isAuth = require("../lib/isAuth");
 const deserializeUser = require("../lib/deserializeUser");
-const { insertPayment } = require("../db/mongo");
+const { insertPayment, deleteAccount } = require("../db/mongo");
 const setAccessToken = require("../lib/setAccessToken");
 
 /* ---------------------
@@ -77,6 +77,13 @@ router.get("/carrito", isAuth, async (req, res) => {
 
 // SE CIERRA LAS SESION
 router.get("/logout", isAuth, (req, res) => {
+  req.logout();
+  res.redirect("/login");
+});
+
+// SE CIERRA LAS SESION
+router.get("/delete", isAuth, async (req, res) => {
+  await deleteAccount(req.user);
   req.logout();
   res.redirect("/login");
 });

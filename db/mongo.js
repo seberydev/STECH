@@ -34,7 +34,7 @@ const insertUser = async (user) => {
     };
   }
 
-  await collection.insertOne(user);
+  await collection.insertOne({ ...user, accountState: "active" });
 
   client.close();
 
@@ -53,6 +53,20 @@ const insertPayment = async (payment) => {
   client.close();
 };
 
+const deleteAccount = async (user) => {
+  const { collection } = await connectToMongo();
+  await collection.updateOne(
+    {
+      email: user.email,
+    },
+    {
+      $set: {
+        accountState: "inactive",
+      },
+    }
+  );
+};
+
 module.exports = {
   client,
   url,
@@ -61,4 +75,5 @@ module.exports = {
   connectToMongo,
   insertUser,
   insertPayment,
+  deleteAccount,
 };
