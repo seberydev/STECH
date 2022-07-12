@@ -102,7 +102,7 @@ if(params.has('confirm')){
     })
 }
 
-// Para cuando el usuario haya confirmado su cuenta
+// Para cuando el usuario haya confirmado su cuenta!
 if(params.has('confirmed')){
     Swal.fire({
         icon: 'success',

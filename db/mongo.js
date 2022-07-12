@@ -57,7 +57,6 @@ const updateUserState = async (id) =>{
   return response
 }
 
-// TODO:
 const updateUserPass = async (id, contraNueva) =>{
   await client.connect();
   const db = client.db(dbName);
