@@ -3,8 +3,8 @@
 
 {{>nav}}
 
-<form  action="/login" id="form" method="post" class="login flex justify-center items-center bg-gray-200 h-screen" style="margin: 0;" >
-  <div style="overflow: hidden" class="bg-white h-96 w-4/12">
+<form  action="/login" id="form" method="post" class="login flex justify-center items-center bg-gray-200" style="margin: 0; height:70%" >
+  <div style="overflow: hidden" class="bg-white h-70 w-4/12">
     <span class="text-2xl m-6 flex font-medium">Inicia Sesión</span>
     <div class="w-3/4 m-6">
       <span>
@@ -21,10 +21,16 @@
     <span class="flex justify-start m-6">
       <input type="submit" value="Iniciar Sesión" class="bg-blue-500 text-white h-10 self-center p-2 hover:bg-blue-600 duration-200 cursor-pointer">
     </span>
-    <span class="flex justify-center m-5 border-t-2 border-t-gray-200 mt-12">
+    <span class="flex justify-center border-t-2">
       <h3 class="m-4">
-        No tienes cuenta?
+        ¿No tienes cuenta?
         <a href="/login/signup" class="text-blue-500 hover:underline">Crea una aquí</a>
+      </h3>
+    </span>
+    <span class="flex justify-center mt-1" style="margin-bottom: 1rem;">
+      <h3 class="">
+        ¿Se te olvidó la contraseña?
+        <a href="/login/forgotPass" class="text-blue-500 hover:underline">Haz click aquí</a>
       </h3>
     </span>
   </div>

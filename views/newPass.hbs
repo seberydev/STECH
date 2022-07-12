@@ -1,0 +1,40 @@
+<script src="/javascripts/sweetalert2.min.js"></script>
+<link rel="stylesheet" href="/stylesheets/sweetalert2.css">
+
+{{>nav}}
+
+<form action="/cPass/{{id}}" id="form" method="post" class="login flex justify-center items-center bg-gray-200"
+    style="margin: 0; height:70%">
+    <div style="overflow: hidden" class="bg-white h-70 w-4/12">
+        <span class="text-2xl m-6 flex font-medium">Cambiar Contraseña</span>
+        <div class="w-3/4 m-6">
+            <span>
+                <h1 class="text-sm text-gray-400">Email</h1>
+                <input type="email" name="email" id="email" required readonly value="{{user}}"
+                    class="border-gray-300 border-b-2 w-full bg-gray-50">
+            </span>
+        </div>
+        <div class="w-3/4 m-6">
+            <span>
+                <h1 class="text-sm text-gray-400">Contraseña Nueva</h1>
+                <input type="password" name="newP" id="pass" required
+                    class="border-gray-300 border-b-2 w-full bg-gray-50">
+            </span>
+        </div>
+        <div class="w-3/4 m-6">
+            <span>
+                <h1 class="text-sm text-gray-400">Confirmar Contraseña</h1>
+                <input type="password" name="confP" id="pass" required
+                    class="border-gray-300 border-b-2 w-full bg-gray-50">
+            </span>
+        </div>
+        <span class="flex justify-start m-6">
+            <input type="submit" value="Cambiar contraseña"
+                class="bg-blue-500 text-white h-10 self-center p-2 hover:bg-blue-600 duration-200 cursor-pointer">
+        </span>
+    </div>
+</form>
+
+{{>footer}}
+
+<script src="/javascripts/alerts.js"></script>
