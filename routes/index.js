@@ -77,14 +77,7 @@ router.get("/carrito", isAuth, async (req, res) => {
 
 // SE CIERRA LAS SESION
 router.get("/logout", isAuth, (req, res) => {
-  req.logout();
-  res.redirect("/login");
-});
-
-// SE CIERRA LAS SESION
-router.get("/delete", isAuth, async (req, res) => {
-  await deleteAccount(req.user);
-  req.logout();
+  req.session.destroy();
   res.redirect("/login");
 });
 
@@ -106,6 +99,12 @@ router.get("/perfil", isAuth, (req, res, next) => {
     apellidos,
     soporte,
   });
+});
+
+router.get("/delete", isAuth, async (req, res) => {
+  await deleteAccount(req.user);
+  req.session.destroy();
+  res.redirect("/");
 });
 
 /* ---------------------

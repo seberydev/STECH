@@ -1,5 +1,5 @@
 const express = require("express");
-const { insertUser } = require("../db/mongo");
+const { insertUser, updateUserState, searchUser } = require("../db/mongo");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const passport = require("passport");
@@ -7,6 +7,8 @@ const serializeUser = require("../lib/serializeUser");
 const useLocalStrategy = require("../lib/useLocalStrategy");
 const validateData = require("../lib/validateData");
 const saltRounds = 10;
+const Mailjet = require('node-mailjet');
+require('dotenv').config()
 
 /* ---------------------
 
@@ -34,6 +36,21 @@ router.get("/signup", (req, res) => {
   res.render("signup", { title: "Registrarse | STECH" });
 });
 
+// VISTA DE USUARIO OLVIDÓ CONTRASEÑA (FORMULARIO)
+router.get('/forgotPass', (req, res, next)=>{
+  res.render('forgotPass', { title: "Contraseña Olvidada | STECH" })
+});
+
+router.get("/:id", (req, res, next)=>{
+  updateUserState(req.params.id)
+  .then(()=>{
+    res.redirect('/login?confirmed=1')
+  })
+  .catch(()=>{
+    console.log('Error al activar cuenta')
+  })
+})
+
 /* ---------------------
 
     RUTAS POST
@@ -58,22 +75,61 @@ router.post("/signup", (req, res) => {
 
   // ENCRIPTAR LA CONTRASEÑA Y GUARDARLA EN LA BASE DE DATOS
   bcrypt.hash(validatedData.value.contrasena, saltRounds, async (err, hash) => {
-    const data = {
+    const userData = {
       nombres: validatedData.value.nombres,
       apellidos: validatedData.value.apellidos,
       email: validatedData.value.email,
       contrasena: hash,
+      estado: "pendiente"
     };
 
-    const result = await insertUser(data);
+    await insertUser(userData)
+      .then((data) => {
+        const mailjet = Mailjet.apiConnect(
+          process.env.MJ_APIKEY_PUBLIC,
+          process.env.MJ_APIKEY_PRIVATE,
+        )
+        const request = mailjet
+          .post('send', { version: 'v3.1' })
+          .request({
+            Messages: [
+              {
+                From: {
+                  Email: process.env.MJ_SENDER_USER,
+                  Name: "STECH Global"
+                },
+                To: [
+                  {
+                    Email: `${data.email}`,
+                    Name: `${data.nombres} ${data.apellidos}`
+                  }
+                ],
+                TemplateID: 4064929,
+                TemplateLanguage: true,
+                Subject: "Account Confirmation",
+                Variables: {
+                  "user_name": data.nombres,
+                  "user_id": data._id
+                }
+              }
+            ]
+          })
 
-    // REDIRECCIONAR EN CASO DE QUE UN CORREO SIMILAR YA SE REGISTRO
-    if (!result.inserted) {
-      res.redirect("/login/signup?errSU=3");
-      return;
-    }
-
-    res.redirect("/login");
+        request
+          .then((result) => {
+            console.log(result.body)
+          })
+          .catch((err) => {
+            console.log(err.statusCode)
+          })
+          .finally(() => {
+            res.redirect('/login?confirm=1')
+          })
+      })
+      .catch(() => {
+        console.log('Error al encontrar nuevo usuario')
+        res.redirect("/login/signup?errSU=3");
+      })
   });
 });
 
@@ -85,5 +141,55 @@ router.post(
     res.redirect("/?good=1");
   }
 );
+
+// MANDAR CORREO A USUARIO QUE PIDE NUEVA CONTRASEÑA
+router.post('/forgotPass', async (req, res, next)=>{
+  await searchUser(req.body.email)
+  .then((data) => {
+    const mailjet = Mailjet.apiConnect(
+      process.env.MJ_APIKEY_PUBLIC,
+      process.env.MJ_APIKEY_PRIVATE,
+    )
+    const request = mailjet
+      .post('send', { version: 'v3.1' })
+      .request({
+        Messages: [
+          {
+            From: {
+              Email: process.env.MJ_SENDER_USER,
+              Name: "STECH Global"
+            },
+            To: [
+              {
+                Email: `${data.email}`,
+                Name: `${data.nombres} ${data.apellidos}`
+              }
+            ],
+            TemplateID: 4064855,
+            TemplateLanguage: true,
+            Subject: "Change Password",
+            Variables: {
+              "user_name": data.nombres,
+              "user_id": data._id
+            }
+          }
+        ]
+      })
+
+    request
+      .then((result) => {
+        console.log(result.body)
+      })
+      .catch((err) => {
+        console.log(err.statusCode)
+      })
+
+      res.redirect('/?getNewP=1')
+  })
+  .catch(() => {
+    console.log('Error al enviar el correo de cambio de contraseña')
+    res.redirect("/login/signup?errSU=5");
+  })
+})
 
 module.exports = router;
